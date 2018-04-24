@@ -24,16 +24,7 @@ num_cols <- c(2,6:14,17:19)
 res_corr <- res_clean[,num_cols]
 
 #Converting cols from hms to seconds
-res_corr$`5K` <- time_to_seconds(res_corr$`5K`)
-res_corr$`10K` <- time_to_seconds(res_corr$`10K`)
-res_corr$`15K` <- time_to_seconds(res_corr$`15K`)
-res_corr$`20K` <- time_to_seconds(res_corr$`20K`)
-res_corr$Half <- time_to_seconds(res_corr$Half)
-res_corr$`25K` <- time_to_seconds(res_corr$`25K`)
-res_corr$`30K` <- time_to_seconds(res_corr$`30K`)
-res_corr$`35K` <- time_to_seconds(res_corr$`35K`)
-res_corr$`40K` <- time_to_seconds(res_corr$`40K`)
-res_corr$`Official Time` <- time_to_seconds(res_corr$`Official Time`)
+res_corr[,2:11] <- res_corr[,2:11] %>% sapply(time_to_seconds)
 
 #Making all cols numerica and getting rid of NAs
 res_corr <- res_corr %>% sapply(as.numeric) %>% na.omit()
@@ -43,7 +34,7 @@ res_corr <- res_corr %>% sapply(as.numeric) %>% na.omit()
 corrMat <- cor(res_corr)
 
 #Correlation plot
-corrplot(corrMat, method = "ellipse")
+corrplot(corrMat, method = "ellipse", type = "upper")
 
 #Groupoing by country
 res_by_country <- group_by(res_clean, Country)
